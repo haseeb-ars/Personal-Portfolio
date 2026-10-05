@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Space_Grotesk, Inter, Instrument_Serif } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import SmoothScroll from "@/components/layout/SmoothScroll";
-import ClientCanvasWrapper from "@/components/canvas/ClientCanvasWrapper";
 import Navbar from "@/components/ui/Navbar";
 import MenuOverlay from "@/components/ui/MenuOverlay";
-import CustomCursor from "@/components/ui/CustomCursor";
-import Preloader from "@/components/ui/Preloader";
+import TreeShadowBackground from "@/components/ui/TreeShadowBackground";
 import { generatePersonSchema, generateServiceSchema } from "@/lib/schema";
 import "@/styles/globals.css";
 
@@ -77,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${bebasNeue.variable} ${spaceGrotesk.variable} ${inter.variable} ${instrumentSerif.variable} dark`}
+      className={`${bebasNeue.variable} ${spaceGrotesk.variable} ${inter.variable} ${instrumentSerif.variable}`}
     >
       <head>
         <script
@@ -89,27 +86,16 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
         />
       </head>
-      <body className="bg-bg text-text selection:bg-accent selection:text-black min-h-screen relative font-body antialiased">
-        {/* Grain Texture Overlay */}
-        <div className="grain-overlay" />
+      <body className="bg-bg text-text selection:bg-text selection:text-bg min-h-screen relative font-body antialiased">
+        {/* Organic Tree Branch Shadow Background */}
+        <TreeShadowBackground />
 
-        {/* Custom Magnetic Cursor */}
-        <CustomCursor />
-
-        {/* Preloader Counter Screen */}
-        <Preloader />
-
-        {/* Fixed 3D WebGL Canvas Layer */}
-        <ClientCanvasWrapper />
-
-        {/* Top Navbar & Menu Overlay */}
+        {/* Navigation & Menu */}
         <Navbar />
         <MenuOverlay />
 
-        {/* Main Smooth Scroll Wrapper */}
-        <SmoothScroll>
-          <main className="relative z-10">{children}</main>
-        </SmoothScroll>
+        {/* Main Content */}
+        <main className="relative z-10">{children}</main>
 
         <Analytics />
       </body>

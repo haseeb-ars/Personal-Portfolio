@@ -4,11 +4,11 @@
 
 @layer base {
   :root {
-    --bg-main: #050505;
-    --text-main: #F2F0EB;
-    --accent-lime: #C6FF3D;
-    --accent-cyan: #00D4FF;
-    --accent-magenta: #FF2D6F;
+    --bg-main: #F5F5F0;
+    --text-main: #111111;
+    --text-muted: #666666;
+    --border-main: #DEDED8;
+    --surface-main: #EFEFE9;
   }
 
   * {
@@ -23,30 +23,15 @@
     color: var(--text-main);
     font-family: var(--font-body), sans-serif;
     overflow-x: hidden;
-    scroll-behavior: auto !important;
+    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    background-color: var(--accent-lime);
-    color: #000000;
+    background-color: #111111;
+    color: #F5F5F0;
   }
-}
-
-/* Film Grain Overlay */
-.grain-overlay {
-  position: fixed;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  bottom: -50%;
-  width: 200%;
-  height: 200vh;
-  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.7;
 }
 
 /* Typography Helpers */
@@ -64,83 +49,159 @@
 
 .eyebrow {
   font-family: var(--font-body), sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--accent-lime);
+  color: #666666;
+  font-weight: 600;
 }
 
-/* Custom Scrollbar */
+/* Custom Minimal Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #050505;
+  background: #F5F5F0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1a1a1a;
+  background: #DEDED8;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-lime);
+  background: #111111;
 }
 
-/* Vibrant Gradient Text */
-.gradient-text-hero {
-  background: linear-gradient(135deg, #F2F0EB 0%, #C6FF3D 50%, #00D4FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+
+/* ------------------------------------------------------------------ */
+/* Atmospheric tree-shadow environment (see TreeShadowBackground.tsx) */
+/* ------------------------------------------------------------------ */
+.shadow-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  contain: strict;
 }
 
-.gradient-text-accent {
-  background: linear-gradient(90deg, #C6FF3D 0%, #00D4FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Neon Glow Utilities */
-.glow-lime {
-  box-shadow: 0 0 20px rgba(198, 255, 61, 0.3), 0 0 60px rgba(198, 255, 61, 0.1);
-}
-.glow-lime-strong {
-  box-shadow: 0 0 30px rgba(198, 255, 61, 0.5), 0 0 100px rgba(198, 255, 61, 0.15);
-}
-.glow-cyan {
-  box-shadow: 0 0 20px rgba(0, 212, 255, 0.3), 0 0 60px rgba(0, 212, 255, 0.1);
-}
-
-/* Animated gradient border */
-.gradient-border {
-  position: relative;
-}
-.gradient-border::before {
-  content: '';
+.shadow-drift {
   position: absolute;
-  inset: -1px;
-  background: linear-gradient(135deg, #C6FF3D, #00D4FF, #FF2D6F, #C6FF3D);
-  background-size: 400% 400%;
-  border-radius: inherit;
-  z-index: -1;
-  animation: gradient-shift 6s ease infinite;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-.gradient-border:hover::before {
-  opacity: 1;
+  inset: 0;
+  will-change: transform;
 }
 
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+.shadow-layer {
+  position: absolute;
+  width: max(1500px, 118vw);
+  aspect-ratio: 10 / 7;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: var(--o);
+  will-change: transform, opacity;
 }
 
-/* Pulse dot */
-.pulse-dot {
-  animation: pulse-dot-glow 2s ease-in-out infinite;
+/* Layer A: foreground branch, enters top-right */
+.shadow-a {
+  --o: 0.17;
+  top: -8%;
+  right: -22%;
+  background-image: url("/shadows/a-branch.webp");
+  transform-origin: 100% 0;
+  animation: sway-a 97s ease-in-out infinite alternate;
 }
-@keyframes pulse-dot-glow {
-  0%, 100% { box-shadow: 0 0 4px rgba(198, 255, 61, 0.4); }
-  50% { box-shadow: 0 0 16px rgba(198, 255, 61, 0.9), 0 0 30px rgba(198, 255, 61, 0.3); }
+/* Layer B: large out-of-focus leaves from the right edge */
+.shadow-b {
+  --o: 0.08;
+  top: 14%;
+  right: -26%;
+  background-image: url("/shadows/b-large-leaves.webp");
+  transform-origin: 100% 40%;
+  animation: sway-b 71s ease-in-out infinite alternate;
+}
+/* Layer C: fine leaves, the faster, subtler texture */
+.shadow-c {
+  --o: 0.09;
+  top: -10%;
+  right: -16%;
+  background-image: url("/shadows/c-fine-leaves.webp");
+  transform-origin: 60% 0;
+  animation: sway-c 53s ease-in-out infinite alternate;
+}
+/* Layer D: very distant mass, low-left, balances the composition */
+.shadow-d {
+  --o: 0.08;
+  left: -16%;
+  bottom: -24%;
+  background-image: url("/shadows/d-distant.webp");
+  transform-origin: 0 100%;
+  animation: sway-d 113s ease-in-out infinite alternate;
+}
+
+/* Different lengths and uneven keyframes keep the combined motion from reading as a loop */
+@keyframes sway-a {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1);          opacity: var(--o); }
+  34%  { transform: translate3d(-1.4%, 0.8%, 0) rotate(1deg) scale(1.02); opacity: calc(var(--o) * 0.86); }
+  71%  { transform: translate3d(0.8%, 1.6%, 0) rotate(-0.7deg) scale(1.035); opacity: calc(var(--o) * 1.08); }
+  100% { transform: translate3d(-0.6%, -0.6%, 0) rotate(0.5deg) scale(1.01); opacity: calc(var(--o) * 0.92); }
+}
+@keyframes sway-b {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1.02);           opacity: calc(var(--o) * 0.9); }
+  42%  { transform: translate3d(-1.8%, -1%, 0) rotate(-1.3deg) scale(1.0);    opacity: calc(var(--o) * 1.1); }
+  100% { transform: translate3d(1.2%, 1.4%, 0) rotate(0.9deg) scale(1.045);   opacity: calc(var(--o) * 0.8); }
+}
+@keyframes sway-c {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1);              opacity: var(--o); }
+  27%  { transform: translate3d(1.6%, 1%, 0) rotate(1.4deg) scale(1.015);     opacity: calc(var(--o) * 1.15); }
+  63%  { transform: translate3d(-1.2%, 2%, 0) rotate(-1.1deg) scale(1.03);    opacity: calc(var(--o) * 0.8); }
+  100% { transform: translate3d(0.8%, -0.8%, 0) rotate(0.8deg) scale(1.0);    opacity: calc(var(--o) * 1.0); }
+}
+@keyframes sway-d {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg) scale(1);              opacity: calc(var(--o) * 0.85); }
+  50%  { transform: translate3d(1.8%, -1.6%, 0) rotate(1.2deg) scale(1.05);   opacity: calc(var(--o) * 1.1); }
+  100% { transform: translate3d(-0.6%, -2.4%, 0) rotate(-0.6deg) scale(1.02); opacity: calc(var(--o) * 0.9); }
+}
+
+@media (max-width: 768px) {
+  .shadow-layer {
+    width: max(1100px, 190vw);
+  }
+  .shadow-a { --o: 0.15; right: -40%; }
+  .shadow-b { --o: 0.11; right: -50%; }
+  .shadow-c { --o: 0.08; right: -20%; }
+  .shadow-d { --o: 0.11; left: -50%; }
+}
+
+/* Scroll-driven, no JS: intensity varies across the page (hero strongest,
+   quieter through the middle, a second atmospheric moment at the end) and each
+   layer drifts at its own parallax rate so the environment feels continuous. */
+@supports (animation-timeline: scroll()) {
+  .shadow-field {
+    animation: shadow-intensity linear both;
+    animation-timeline: scroll(root block);
+  }
+  .shadow-drift {
+    animation: shadow-parallax linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+@keyframes shadow-intensity {
+  0%   { opacity: 1; }
+  12%  { opacity: 0.8; }
+  35%  { opacity: 0.55; }
+  65%  { opacity: 0.5; }
+  88%  { opacity: 0.75; }
+  100% { opacity: 1; }
+}
+@keyframes shadow-parallax {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(calc(var(--sx) * 1vw), calc(var(--sy) * 1vh), 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shadow-field,
+  .shadow-drift,
+  .shadow-layer {
+    animation: none !important;
+  }
 }

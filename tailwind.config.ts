@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,24 +9,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#050505",
-        surface: "#0E0E0E",
-        "surface-border": "#1A1A1A",
-        card: "#111111",
-        text: "#F2F0EB",
-        "text-muted": "#8A8880",
+        bg: "#F5F5F0",
+        surface: "#EFEFE9",
+        "surface-border": "#DEDED8",
+        card: "#F7F7F2",
+        text: "#111111",
+        "text-muted": "#666666",
+        "text-subtle": "#888880",
         accent: {
-          DEFAULT: "#C6FF3D",
-          hover: "#D4FF66",
-          glow: "rgba(198, 255, 61, 0.2)",
+          DEFAULT: "#111111",
+          hover: "#222222",
+          light: "#E8E8E2",
         },
-        cyan: {
-          DEFAULT: "#00D4FF",
-          glow: "rgba(0, 212, 255, 0.2)",
-        },
-        magenta: {
-          DEFAULT: "#FF2D6F",
-          glow: "rgba(255, 45, 111, 0.2)",
+        border: {
+          DEFAULT: "#DEDED8",
+          dark: "#CCCCCC",
         },
       },
       fontFamily: {
@@ -45,19 +41,9 @@ const config: Config = {
           "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(-50%)" },
         },
-        "pulse-glow": {
-          "0%, 100%": { opacity: "0.4" },
-          "50%": { opacity: "1" },
-        },
-        "float": {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-12px)" },
-        },
       },
       animation: {
-        "marquee-left": "marquee-left 20s linear infinite",
-        "pulse-glow": "pulse-glow 3s ease-in-out infinite",
-        "float": "float 4s ease-in-out infinite",
+        "marquee-left": "marquee-left 25s linear infinite",
       },
     },
   },

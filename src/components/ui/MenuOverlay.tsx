@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAppStore } from "@/lib/store";
-import { ArrowUpRight, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 
 const MENU_ITEMS = [
   { number: "01", label: "Home", href: "/" },
@@ -15,7 +15,7 @@ const MENU_ITEMS = [
 ];
 
 export default function MenuOverlay() {
-  const { isMenuOpen, setMenuOpen, setCursor } = useAppStore();
+  const { isMenuOpen, setMenuOpen } = useAppStore();
 
   return (
     <AnimatePresence>
@@ -24,13 +24,13 @@ export default function MenuOverlay() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-          className="fixed inset-0 z-[8000] bg-[#0A0A0A]/98 backdrop-blur-xl flex flex-col justify-between p-8 md:p-16 text-text overflow-y-auto"
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 z-[8000] bg-[#F5F5F0]/98 backdrop-blur-xl flex flex-col justify-between p-8 md:p-16 text-text overflow-y-auto border-b border-border"
         >
           {/* Top Info */}
-          <div className="flex items-center justify-between border-b border-white/10 pb-6 pt-16 md:pt-8">
-            <span className="eyebrow text-xs tracking-widest">/ MENU</span>
-            <span className="text-xs text-text-muted uppercase tracking-widest">
+          <div className="flex items-center justify-between border-b border-border pb-6 pt-16 md:pt-8">
+            <span className="eyebrow text-xs tracking-widest">/ NAVIGATION</span>
+            <span className="text-xs text-text-muted uppercase tracking-widest font-mono">
               Shopify Expert Partner
             </span>
           </div>
@@ -41,18 +41,16 @@ export default function MenuOverlay() {
               {MENU_ITEMS.map((item, idx) => (
                 <motion.div
                   key={item.number}
-                  initial={{ opacity: 0, x: -50 }}
+                  initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 + idx * 0.08, duration: 0.5, ease: [0.215, 0.61, 0.355, 1] }}
+                  transition={{ delay: 0.05 + idx * 0.05, duration: 0.4 }}
                 >
                   <Link
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    onMouseEnter={() => setCursor("hover", "Open")}
-                    onMouseLeave={() => setCursor("default")}
-                    className="group inline-flex items-baseline space-x-6 text-text hover:text-accent transition-colors duration-300"
+                    className="group inline-flex items-baseline space-x-6 text-text hover:text-text-muted transition-colors duration-300"
                   >
-                    <span className="font-mono text-sm md:text-base text-accent/80 group-hover:text-accent">
+                    <span className="font-mono text-sm md:text-base text-text-muted">
                       {item.number}
                     </span>
                     <span className="font-display text-5xl md:text-7xl font-bold tracking-tight uppercase group-hover:translate-x-3 transition-transform duration-300">
@@ -65,15 +63,15 @@ export default function MenuOverlay() {
 
             {/* Right Column: Contact & Socials */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.5 }}
-              className="lg:col-span-5 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-white/10 pt-8 lg:pt-0 lg:pl-12 space-y-8"
+              transition={{ delay: 0.3, duration: 0.4 }}
+              className="lg:col-span-5 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-border pt-8 lg:pt-0 lg:pl-12 space-y-8"
             >
               <div>
                 <span className="eyebrow block mb-3 text-xs">Location & Remote</span>
                 <p className="text-text-muted text-sm flex items-center space-x-2">
-                  <MapPin className="w-4 h-4 text-accent" />
+                  <MapPin className="w-4 h-4 text-text shrink-0" />
                   <span>Manchester, UK — Remote & Worldwide Contracts</span>
                 </p>
               </div>
@@ -85,7 +83,7 @@ export default function MenuOverlay() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setMenuOpen(false)}
-                  className="inline-flex items-center space-x-2 px-6 py-3 border border-accent text-accent hover:bg-accent hover:text-black transition-all rounded-full font-bold text-sm tracking-wider uppercase"
+                  className="inline-flex items-center space-x-2 px-6 py-3 border border-text text-text bg-transparent hover:bg-black hover:text-white transition-all rounded-full font-bold text-xs tracking-wider uppercase"
                 >
                   <span>Book Strategy Call</span>
                   <ArrowUpRight className="w-4 h-4" />
@@ -93,15 +91,21 @@ export default function MenuOverlay() {
               </div>
 
               <div>
-                <span className="eyebrow block mb-3 text-xs">Social & Code</span>
+                <span className="eyebrow block mb-3 text-xs">Social & Profiles</span>
                 <div className="flex flex-wrap gap-4 text-sm text-text-muted">
-                  {["GitHub", "LinkedIn", "Twitter / X", "Shopify Experts"].map((net) => (
+                  {[
+                    { name: "GitHub", href: "https://github.com" },
+                    { name: "LinkedIn", href: "https://linkedin.com" },
+                    { name: "Twitter / X", href: "https://twitter.com" },
+                  ].map((net) => (
                     <a
-                      key={net}
-                      href="#"
-                      className="hover:text-accent transition-colors flex items-center space-x-1"
+                      key={net.name}
+                      href={net.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-text transition-colors flex items-center space-x-1"
                     >
-                      <span>{net}</span>
+                      <span>{net.name}</span>
                       <ArrowUpRight className="w-3 h-3" />
                     </a>
                   ))}
@@ -111,9 +115,9 @@ export default function MenuOverlay() {
           </div>
 
           {/* Footer Bar */}
-          <div className="flex flex-col sm:flex-row justify-between items-center border-t border-white/10 pt-6 text-xs text-text-muted space-y-2 sm:space-y-0">
+          <div className="flex flex-col sm:flex-row justify-between items-center border-t border-border pt-6 text-xs text-text-muted space-y-2 sm:space-y-0">
             <span>© {new Date().getFullYear()} Haseeb Arshed — All Rights Reserved.</span>
-            <span>Shopify Plus & Hydrogen Certified Partner</span>
+            <span className="font-mono text-[11px]">Senior Shopify Developer & Architect</span>
           </div>
         </motion.div>
       )}

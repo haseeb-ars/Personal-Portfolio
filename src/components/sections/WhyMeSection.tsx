@@ -35,11 +35,11 @@ const WHY_ME_ITEMS: AccordionItem[] = [
 
 export default function WhyMeSection() {
   return (
-    <section className="w-full py-28 px-6 md:px-12 bg-surface/30 border-t border-white/10">
+    <section className="w-full py-28 px-6 md:px-12 border-t border-border">
       <div className="max-w-7xl mx-auto">
         <div className="mb-16">
           <span className="eyebrow block mb-3">/ WHY WORK WITH ME</span>
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight uppercase">
+          <h2 className="font-display text-4xl md:text-7xl lg:text-8xl font-bold tracking-tight uppercase text-text">
             THE ALL-IN-ONE <br />
             SHOPIFY PARTNER
           </h2>

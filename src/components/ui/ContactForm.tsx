@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
-import { useAppStore } from "@/lib/store";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -30,7 +29,6 @@ const SERVICE_OPTIONS = [
 export default function ContactForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const { setCursor } = useAppStore();
 
   const {
     register,
@@ -110,22 +108,22 @@ export default function ContactForm() {
   if (isSubmitted) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="p-10 rounded-2xl bg-surface border border-accent/40 text-center space-y-6"
+        className="p-10 rounded-2xl bg-surface border border-border text-center space-y-6"
       >
-        <div className="w-16 h-16 rounded-full bg-accent/20 text-accent mx-auto flex items-center justify-center">
-          <CheckCircle2 className="w-10 h-10" />
+        <div className="w-14 h-14 rounded-full bg-black text-white mx-auto flex items-center justify-center">
+          <CheckCircle2 className="w-8 h-8" />
         </div>
-        <h3 className="font-display text-4xl font-bold uppercase text-text">
+        <h3 className="font-display text-3xl font-bold uppercase text-text">
           MESSAGE RECEIVED!
         </h3>
-        <p className="text-text-muted text-base max-w-md mx-auto font-light">
+        <p className="text-text-muted text-sm max-w-md mx-auto font-light">
           Thank you for reaching out. I inspect all project enquiries personally and respond within 12 business hours.
         </p>
         <button
           onClick={() => setIsSubmitted(false)}
-          className="px-6 py-3 rounded-full bg-white/10 text-xs font-mono tracking-widest text-text hover:bg-accent hover:text-black transition-colors uppercase"
+          className="px-6 py-3 rounded-full bg-black text-white text-xs font-mono tracking-widest uppercase hover:bg-neutral-800 transition-colors"
         >
           Send another message
         </button>
@@ -142,9 +140,9 @@ export default function ContactForm() {
           <input
             {...register("name")}
             placeholder="John Doe"
-            className="w-full px-5 py-4 rounded-xl bg-surface border border-white/10 text-text placeholder:text-text-muted/40 focus:outline-none focus:border-accent transition-colors"
+            className="w-full px-5 py-4 rounded-xl bg-surface border border-border text-text placeholder:text-text-muted/60 focus:outline-none focus:border-black transition-colors text-sm"
           />
-          {errors.name && <span className="text-xs text-red-400">{errors.name.message}</span>}
+          {errors.name && <span className="text-xs text-red-600">{errors.name.message}</span>}
         </div>
 
         <div className="space-y-2">
@@ -153,9 +151,9 @@ export default function ContactForm() {
             {...register("email")}
             type="email"
             placeholder="john@yourbrand.com"
-            className="w-full px-5 py-4 rounded-xl bg-surface border border-white/10 text-text placeholder:text-text-muted/40 focus:outline-none focus:border-accent transition-colors"
+            className="w-full px-5 py-4 rounded-xl bg-surface border border-border text-text placeholder:text-text-muted/60 focus:outline-none focus:border-black transition-colors text-sm"
           />
-          {errors.email && <span className="text-xs text-red-400">{errors.email.message}</span>}
+          {errors.email && <span className="text-xs text-red-600">{errors.email.message}</span>}
         </div>
       </div>
 
@@ -165,14 +163,14 @@ export default function ContactForm() {
         <input
           {...register("storeUrl")}
           placeholder="https://yourstore.com"
-          className="w-full px-5 py-4 rounded-xl bg-surface border border-white/10 text-text placeholder:text-text-muted/40 focus:outline-none focus:border-accent transition-colors"
+          className="w-full px-5 py-4 rounded-xl bg-surface border border-border text-text placeholder:text-text-muted/60 focus:outline-none focus:border-black transition-colors text-sm"
         />
       </div>
 
       {/* Services Needed Pills */}
       <div className="space-y-3">
         <label className="eyebrow text-xs block">What do you need help with? *</label>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2.5">
           {SERVICE_OPTIONS.map((srv) => {
             const isSelected = selectedServices.includes(srv);
             return (
@@ -180,10 +178,10 @@ export default function ContactForm() {
                 type="button"
                 key={srv}
                 onClick={() => toggleService(srv)}
-                className={`px-4 py-2.5 rounded-full text-xs font-mono tracking-wider transition-all duration-200 ${
+                className={`px-4 py-2.5 rounded-full text-xs font-mono tracking-wider transition-all duration-200 cursor-pointer ${
                   isSelected
-                    ? "bg-accent text-black font-bold border border-accent"
-                    : "bg-surface border border-white/10 text-text-muted hover:border-white/30"
+                    ? "bg-black text-white font-bold border border-black"
+                    : "bg-surface border border-border text-text-muted hover:border-black hover:text-text"
                 }`}
               >
                 {srv}
@@ -191,7 +189,7 @@ export default function ContactForm() {
             );
           })}
         </div>
-        {errors.services && <span className="text-xs text-red-400 block">{errors.services.message}</span>}
+        {errors.services && <span className="text-xs text-red-600 block">{errors.services.message}</span>}
       </div>
 
       {/* Message Textarea */}
@@ -201,13 +199,13 @@ export default function ContactForm() {
           {...register("message")}
           rows={5}
           placeholder="Tell me about your current store, key pain points, deadlines, or targets..."
-          className="w-full px-5 py-4 rounded-xl bg-surface border border-white/10 text-text placeholder:text-text-muted/40 focus:outline-none focus:border-accent transition-colors"
+          className="w-full px-5 py-4 rounded-xl bg-surface border border-border text-text placeholder:text-text-muted/60 focus:outline-none focus:border-black transition-colors text-sm"
         />
-        {errors.message && <span className="text-xs text-red-400">{errors.message.message}</span>}
+        {errors.message && <span className="text-xs text-red-600">{errors.message.message}</span>}
       </div>
 
       {errorMessage && (
-        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono">
+        <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-mono">
           {errorMessage}
         </div>
       )}
@@ -216,13 +214,11 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        onMouseEnter={() => setCursor("hover", "Submit")}
-        onMouseLeave={() => setCursor("default")}
-        className="w-full py-5 rounded-xl bg-accent text-black font-display text-xl font-bold tracking-wider uppercase hover:bg-accent-hover transition-colors flex items-center justify-center space-x-3 cursor-pointer"
+        className="w-full py-5 rounded-xl bg-black text-white font-display text-lg font-bold tracking-wider uppercase hover:bg-neutral-800 transition-colors flex items-center justify-center space-x-3 cursor-pointer"
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="w-6 h-6 animate-spin" />
+            <Loader2 className="w-5 h-5 animate-spin" />
             <span>SENDING ENQUIRY...</span>
           </>
         ) : (
